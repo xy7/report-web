@@ -1,11 +1,13 @@
 package com.seasun.report;
 
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
@@ -23,7 +25,8 @@ public class App {
 		model.put("message", "hello world!");
 		return "welcome";
     }
-
+	
+	
     public static void main(String[] args) throws Exception {
     	ApplicationContext ctx = SpringApplication.run(App.class, args);
     }

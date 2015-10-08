@@ -30,5 +30,18 @@ repositories {
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-freemarker")
+    compile("com.github.rapid.common:rapid-common-util:1.0.0")
+    compile("commons-lang:commons-lang:2.5")
+    compile("commons-collections:commons-collections:3.2.1")
+    compile("commons-beanutils:commons-beanutils:1.8.3")
+    compile("commons-io:commons-io:2.4")
+    compile("commons-logging:commons-logging:1.1.1")
+    compile("commons-dbcp:commons-dbcp:1.4")
+    compile("")
+    compile("")
+    compile("")
+    compile("")
+    compile("")
+    compile("")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
