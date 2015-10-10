@@ -12,7 +12,6 @@ publish
 .classpath
 .project
 .settings
-/application.properties
 /application-test.properties
 /application.pid
 /bin/
