@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-<tr>123</tr>
+<tr>Message: ${message}</tr>
 <br/>
 </head>
 <body>

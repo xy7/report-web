@@ -18,8 +18,9 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management' 
+apply plugin: 'war'
 
-jar {
+war {
     baseName = 'report-web'
     version =  '0.0.1-SNAPSHOT'
 }
@@ -50,6 +51,8 @@ dependencies {
     compile("org.jsoup:jsoup:1.8.2")
     compile("ant:ant:1.6.5")
     compile("com.thoughtworks.xstream:xstream:1.4.8")
+    compile("org.apache.tomcat.embed:tomcat-embed-jasper")
+    compile("javax.servlet:jstl")
     testCompile("org.springframework.boot:spring-boot-starter-test")
     runtime("mysql:mysql-connector-java")
 }
