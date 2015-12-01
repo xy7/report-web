@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="java.util.List"%>
-<%@ page import="java.util.Map"%>
+<%@ page import="java.util.*"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,23 +56,17 @@ color:#2FABE9;
 
 	for(int i=0;i<list.size();i++){
 		Map<String, String> m = list.get(i);
-		out.println(m.get("name"));
-		out.println("<br/>");
-		out.println(m.get("url"));
-		out.println("<br/>");
+		Iterator<String> it = m.keySet().iterator();
+		while(it.hasNext()){
+			String colName = it.next();
+			out.println(colName);
+			out.println("<br/>");
+			out.println(m.get(colName));
+			out.println("<br/>");
+		}
 	}
 	
 %>
-	<c>
-	${time}<br/>
-	${message}<br/>
-	</c>
-	<c:forEach items="${list}" var="it">
-		${it.name}<br/>
-		<form action="/editTableData/${it.name}" method="get">
-			<input type="submit" value="edit data" />
-		</form>
-	</c:forEach>
-	
+
 </body>
 </html>
