@@ -52,28 +52,16 @@ color:#2FABE9;
 </head>
 
 <body>
-<%
-	List<Map<String, String>> list = (List<Map<String, String>>)request.getAttribute("list");
-
-	for(int i=0;i<list.size();i++){
-		Map<String, String> m = list.get(i);
-		out.println(m.get("name"));
-		out.println("<br/>");
-		out.println(m.get("url"));
-		out.println("<br/>");
-	}
-	
-%>
-	<c>
-	${time}<br/>
-	${message}<br/>
-	</c>
+	<br/><br/>${message}<br/><br/>
+	<table>
 	<c:forEach items="${list}" var="it">
-		${it.name}<br/>
-		<form action="/editTableData/${it.name}" method="get">
+	<tr>
+		<td>${it.tableComment}</td>
+		<td><form action="/editTableData/${it.tableName}" method="get">
 			<input type="submit" value="edit data" />
-		</form>
+		</form></td>
+		</tr>
 	</c:forEach>
-	
+	</table>
 </body>
 </html>

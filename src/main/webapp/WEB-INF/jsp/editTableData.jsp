@@ -51,22 +51,30 @@ color:#2FABE9;
 </head>
 
 <body>
+<table border="1">
+<br/><br/>${tableName}<br/><br/>
+<tr bgcolor=#999999>
+	<c:forEach items="${columnList}" var="it">
+		<th>${it.columnComment}</th>
+	</c:forEach>
+</tr>
+
 <%
-	List<Map<String, String>> list = (List<Map<String, String>>)request.getAttribute("list");
+	List<Map<String, Object>> list = (List<Map<String, Object>>)request.getAttribute("dataList");
 
 	for(int i=0;i<list.size();i++){
-		Map<String, String> m = list.get(i);
+		out.println("<tr>");
+		Map<String, Object> m = list.get(i);
 		Iterator<String> it = m.keySet().iterator();
 		while(it.hasNext()){
+			out.println("<td>");
 			String colName = it.next();
-			out.println(colName);
-			out.println("<br/>");
 			out.println(m.get(colName));
-			out.println("<br/>");
+			out.println("</td>");
 		}
+		out.println("</tr>");
 	}
-	
 %>
-
+</table>
 </body>
 </html>
