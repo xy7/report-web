@@ -7,47 +7,6 @@
 <meta charset="utf-8">
 <title>show tables</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style type="text/css">
-body {
-	padding-bottom: 40px;
-}
-
-.sidebar-nav {
-	padding: 9px 0;
-}
-
-.menu-li {
-	height: 25px;
-	margin: 10px 0 0 0;
-	list-style-type: none;
-}
-
-.menu-li a {
-	text-decoration: none;
-}
-.on-click{
-font-weight:bold;
-color:red;
-}
-.menu-click{
-font-weight:normal;
-color:red;
-}
-.on-menu-click{
-font-weight:bold;
-color:red;
-}
-.title{
-font-size:15px;
-font-weight:bold;
-color:#2FABE9;
-}
-.select-font{
-color:#2FABE9;
-}
-</style>
-
 </head>
 
 <body>
@@ -55,24 +14,43 @@ color:#2FABE9;
 <br/><br/>${tableName}<br/><br/>
 <tr bgcolor=#999999>
 	<c:forEach items="${columnList}" var="it">
-		<th>${it.columnComment}</th>
+	<th>${it.columnComment}</th>
 	</c:forEach>
+	<th>operate</th>
 </tr>
-
+<tr>
+<form action="editTableRow/insert" method="post" >
+<c:forEach items="${columnList}" var="it">
+<td><input type="text" name="${it.columnName}" value="" ></td>
+</c:forEach>
+<input type="hidden" name="tableName" value="${tableName}"/>
+<td><input type="submit" value="add" /></td>
+</form>
+</tr>
 <%
+	List<String> columnList = (List<String>)request.getAttribute("columnList");
+
 	List<Map<String, Object>> list = (List<Map<String, Object>>)request.getAttribute("dataList");
+	String tableName = (String)request.getAttribute("tableName");
 
 	for(int i=0;i<list.size();i++){
-		out.println("<tr>");
+		out.println("<tr><form action=\"\" method=\"post\" >");
 		Map<String, Object> m = list.get(i);
+		
 		Iterator<String> it = m.keySet().iterator();
 		while(it.hasNext()){
-			out.println("<td>");
 			String colName = it.next();
-			out.println(m.get(colName));
+			if(colName.equals("_id"))
+				continue;
+			
+			Object value = m.get(colName);
+			out.println("<td><input type=\"text\" name=\"" + colName + "\" value=\"" + value + "\">");
 			out.println("</td>");
 		}
-		out.println("</tr>");
+		out.println("<input type=\"hidden\" name=\"tableName\" value=\"" + tableName + "\"/>");
+		out.println("<input type=\"hidden\" name=\"_id\" value=\"" + m.get("_id") + "\"/>");
+		out.println("<td><input type=\"submit\" value=\"update\" onclick=\"this.form.action='editTableRow/update';this.form.submit();\" />"
+			+ "<input type=\"submit\" value=\"delete\" onclick=\"this.form.action='editTableRow/delete';this.form.submit();\" /> </td></form></tr>");
 	}
 %>
 </table>
