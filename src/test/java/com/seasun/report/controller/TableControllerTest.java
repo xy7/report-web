@@ -18,7 +18,7 @@ public class TableControllerTest {
 	@Autowired
 	private JdbcTemplate jdbc;
 	
-	@Test
+	//@Test
 	public void test() {
 		System.out.println(jdbc.queryForList("select * from test"));
 		System.out.println(jdbc.queryForList("select COLUMN_NAME, COLUMN_COMMENT from information_schema.columns where table_name='test'") );
