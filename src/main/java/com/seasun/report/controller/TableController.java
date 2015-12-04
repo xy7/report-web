@@ -22,6 +22,11 @@ public class TableController {
 	private static final String _ID = "_id";
 	private static final Log log = LogFactory.getLog(TableController.class);
 	
+	@RequestMapping("/test_welcome")
+	public @ResponseBody String test() {
+		return "welcome";
+    }
+	
 	@Autowired
 	private JdbcTemplate jdbc;
 
