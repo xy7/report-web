@@ -39,8 +39,8 @@ public class TableController {
 		return "showTables";
     }
 	
-	@RequestMapping(value="/editTableData/{tableName}", method = RequestMethod.GET)
-	public String editTableData(Map<String, Object> model, @PathVariable("tableName") String tableName) {
+	@RequestMapping(value="/editTableData/{tableName}", method = RequestMethod.POST)
+	public String editTableData(Map<String, Object> model, @PathVariable("tableName") String tableName, HttpServletRequest request) {
 		model.put("tableName", tableName);
 		//从表中查出数据
 		List<Map<String, Object>> columnList = jdbc.queryForList(
@@ -49,8 +49,24 @@ public class TableController {
 		
 		model.put("columnList", columnList);
 		
+		//从表中查出数据
+		List<Map<String, Object>> searchList = jdbc.queryForList(
+				"select COLUMN_NAME columnName, COLUMN_COMMENT columnComment from information_schema.columns "
+				+ "where table_name='" + tableName + "'" + " and COLUMN_NAME != '" + _ID + "' and ORDINAL_POSITION in (2,3,4)");
+		
+		model.put("searchList", searchList);
+		
+		StringBuilder sb = new StringBuilder();
+		for(Map<String, Object> m:searchList){
+			String col = m.get("columnName").toString();
+			String value = request.getParameter(col);
+			if(value != null && !value.isEmpty()){
+				sb.append(" and ").append(col).append("=").append("'").append(value).append("'");
+			}
+		}
+
 		List<Map<String, Object>> dataList = jdbc.queryForList(
-				"select * from " + tableName);
+				"select * from " + tableName + " where 1=1 " + sb.toString());
 		
 		model.put("dataList", dataList);
 
@@ -71,7 +87,9 @@ public class TableController {
 
 		for(String col:columnList){
 			String value = request.getParameter(col);
-			sb.append(",").append(col).append("=").append("'").append(value).append("'");
+			if(value != null && !value.isEmpty()){
+				sb.append(",").append(col).append("=").append("'").append(value).append("'");
+			}
 		}
 		
 		String sql = "update " + tableName + " set " + sb.toString().substring(1) + " where " + _ID + "=" + id;
@@ -95,8 +113,10 @@ public class TableController {
 
 		for(String col:columnList){
 			String value = request.getParameter(col);
-			sbCol.append(",").append(col);
-			sbValue.append(",").append("'").append(value).append("'");
+			if(value != null && !value.isEmpty()){
+				sbCol.append(",").append(col);
+				sbValue.append(",").append("'").append(value).append("'");
+			}
 		}
 		
 		String sql = "insert into " + tableName + " (" + sbCol.toString().substring(1) 

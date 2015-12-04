@@ -10,8 +10,18 @@
 </head>
 
 <body>
-<table border="1">
+
 <br/><br/>${tableName}<br/><br/>
+<tr>
+	<form action="${tableName}" method="post" >
+	<c:forEach items="${searchList}" var="it">
+	<td>${it.columnComment}:<input type="text" name="${it.columnName}" value="" ></td>
+	</c:forEach>
+	<%-- <input type="hidden" name="tableName" value="${tableName}"/> --%>
+	<td><input type="submit" value="search" /></td>
+	</form>
+</tr>
+<table border="1">
 <tr bgcolor=#999999>
 	<c:forEach items="${columnList}" var="it">
 	<th>${it.columnComment}</th>
@@ -19,13 +29,13 @@
 	<th>operate</th>
 </tr>
 <tr>
-<form action="editTableRow/insert" method="post" >
-<c:forEach items="${columnList}" var="it">
-<td><input type="text" name="${it.columnName}" value="" ></td>
-</c:forEach>
-<input type="hidden" name="tableName" value="${tableName}"/>
-<td><input type="submit" value="add" /></td>
-</form>
+	<form action="editTableRow/insert" method="post" >
+	<c:forEach items="${columnList}" var="it">
+	<td><input type="text" name="${it.columnName}" value="" ></td>
+	</c:forEach>
+	<input type="hidden" name="tableName" value="${tableName}"/>
+	<td><input type="submit" value="add" /></td>
+	</form>
 </tr>
 <%
 	List<String> columnList = (List<String>)request.getAttribute("columnList");

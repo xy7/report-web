@@ -57,7 +57,7 @@ color:#2FABE9;
 	<c:forEach items="${list}" var="it">
 	<tr>
 		<td>${it.tableComment}</td>
-		<td><form action="/editTableData/${it.tableName}" method="get">
+		<td><form action="/editTableData/${it.tableName}" method="post">
 			<input type="submit" value="edit data" />
 		</form></td>
 		</tr>
