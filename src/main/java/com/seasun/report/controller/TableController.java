@@ -37,12 +37,37 @@ public class TableController {
 		//从配置表中查出所有的表
 		List<Map<String, Object>> list = jdbc.queryForList(
 				"select TABLE_NAME tableName, TABLE_COMMENT tableComment from information_schema.tables "
-				+ "where table_type = 'BASE TABLE' and TABLE_SCHEMA='weixin'");
+				+ "where table_type = 'BASE TABLE' and TABLE_SCHEMA in ( select database()) ");
 	
 		model.put("list", list);
 		
 		return "showTables";
     }
+	
+	@RequestMapping(value="/editTableData/{tableName}", method = RequestMethod.GET)
+	public String showTableData(Map<String, Object> model, @PathVariable("tableName") String tableName, HttpServletRequest request) {
+		model.put("tableName", tableName);
+		//从表中查出数据
+		List<Map<String, Object>> columnList = jdbc.queryForList(
+				"select COLUMN_NAME columnName, COLUMN_COMMENT columnComment from information_schema.columns "
+				+ "where table_name='" + tableName + "'" + " and COLUMN_NAME != '" + _ID + "'"); 
+		
+		model.put("columnList", columnList);
+		
+		//从表中查出数据
+		List<Map<String, Object>> searchList = jdbc.queryForList(
+				"select COLUMN_NAME columnName, COLUMN_COMMENT columnComment from information_schema.columns "
+				+ "where table_name='" + tableName + "'" + " and COLUMN_NAME != '" + _ID + "' and ORDINAL_POSITION in (2,3,4)");
+		
+		model.put("searchList", searchList);
+
+		List<Map<String, Object>> dataList = jdbc.queryForList(
+				"select * from " + tableName);
+		
+		model.put("dataList", dataList);
+
+		return "editTableData";
+	}
 	
 	@RequestMapping(value="/editTableData/{tableName}", method = RequestMethod.POST)
 	public String editTableData(Map<String, Object> model, @PathVariable("tableName") String tableName, HttpServletRequest request) {
@@ -79,7 +104,7 @@ public class TableController {
 	}
 	
 	@RequestMapping(value="/editTableData/editTableRow/update", method = RequestMethod.POST)
-	public @ResponseBody String editTableRow(HttpServletRequest request) {
+	public String editTableRow(HttpServletRequest request) {
 		
 		String tableName = request.getParameter("tableName");
 		int id = Integer.parseInt(request.getParameter(_ID) );
@@ -134,7 +159,7 @@ public class TableController {
 	}
 	
 	@RequestMapping(value="/editTableData/editTableRow/delete", method = RequestMethod.POST)
-	public @ResponseBody String deleteTableRow(HttpServletRequest request) {
+	public String deleteTableRow(HttpServletRequest request) {
 		
 		String tableName = request.getParameter("tableName");
 		int id = Integer.parseInt(request.getParameter(_ID) );
