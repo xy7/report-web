@@ -66,7 +66,7 @@ public class TableController {
 		
 		model.put("dataList", dataList);
 
-		return "editTableData";
+		return "../editTableData";
 	}
 	
 	@RequestMapping(value="/editTableData/{tableName}", method = RequestMethod.POST)
@@ -100,7 +100,7 @@ public class TableController {
 		
 		model.put("dataList", dataList);
 
-		return "editTableData";
+		return "../editTableData";
 	}
 	
 	@RequestMapping(value="/editTableData/editTableRow/update", method = RequestMethod.POST)
@@ -117,7 +117,7 @@ public class TableController {
 
 		for(String col:columnList){
 			String value = request.getParameter(col);
-			if(value != null && !value.isEmpty()){
+			if(value != null && !value.isEmpty() && !value.equalsIgnoreCase("null")){
 				sb.append(",").append(col).append("=").append("'").append(value).append("'");
 			}
 		}
@@ -143,7 +143,7 @@ public class TableController {
 
 		for(String col:columnList){
 			String value = request.getParameter(col);
-			if(value != null && !value.isEmpty()){
+			if(value != null && !value.isEmpty() && !value.equalsIgnoreCase("null")){
 				sbCol.append(",").append(col);
 				sbValue.append(",").append("'").append(value).append("'");
 			}
