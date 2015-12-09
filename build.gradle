@@ -18,9 +18,8 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management' 
-apply plugin: 'jar'
 
-war {
+jar {
     baseName = 'report-web'
     version =  '0.0.1-SNAPSHOT'
 }
